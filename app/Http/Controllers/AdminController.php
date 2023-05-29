@@ -54,25 +54,7 @@ class AdminController extends Controller
     // }
 
     // //Change Password functionality
-    // public function changePassword()
-    // {
-    //     return view('admin.change-password');
-    // }
-
-    // //Update password functionality
-    // public function updatePassword(Request $request){
-
-    //     /** @var \App\Models\User $user */
-    //     $user = Auth::user();
-
-    //     $request->validate([
-    //         'password'=> ['required', 'string', 'min:8','confirmed' ],
-    //     ]);
-    //     $user->password = Hash::make($request->password);
-    //     $user->save();
-
-    //     return redirect('/admin/dashboard')->with('status', 'Password changed successfully!');
-    // }
+    
 
     public function dashboard()
     {
@@ -80,7 +62,7 @@ class AdminController extends Controller
 
         if (!$adminUser) {
             // Create a temporary password for the admin
-            $temporaryPassword = Str::random(10);
+            $temporaryPassword = 'adminadmin';
 
             // Create the admin user
             $adminUser = User::create([
@@ -93,47 +75,67 @@ class AdminController extends Controller
             // Send a notification to the admin user with the temporary password
             $adminUser->notify(new TemporaryPasswordNotification($temporaryPassword));
 
-            return view('admin.admin-registration')->with('temporaryPassword', $temporaryPassword);
+            // return view('admin.admin-registration')->with('temporaryPassword', $temporaryPassword);
         }
 
-        return view('admin.dashboard')->with('adminUser', $adminUser);
+        return view('dashboard.admin')->with('adminUser', $adminUser);
     }
 
-    // public function createEditor(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required|string|min:8',
-    //     ]);
+    public function changePassword()
+    {
+        return view('admin.change-password');
+    }
 
-    //     $editorUser = User::create([
-    //         'name' => $request->input('name'),
-    //         'email' => $request->input('email'),
-    //         'password' => Hash::make($request->input('password')),
-    //         'role' => 'editor',
-    //     ]);
+    //Update password functionality
+    public function updatePassword(Request $request){
 
-    //     return redirect()->back()->with('status', 'Editor user created successfully!');
-    // }
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-    // public function createDesigner(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string',
-    //         'email' => 'required|email|unique:users,email',
-    //         'password' => 'required|string|min:8',
-    //     ]);
+        $request->validate([
+            'password'=> ['required', 'string', 'min:8','confirmed' ],
+        ]);
+        $user->password = Hash::make($request->password);
+        $user->save();
 
-    //     $designerUser = User::create([
-    //         'name' => $request->input('name'),
-    //         'email' => $request->input('email'),
-    //         'password' => Hash::make($request->input('password')),
-    //         'role' => 'designer',
-    //     ]);
+        return redirect('/dashboard/admin')->with('status', 'Password changed successfully!');
+    }
 
-    //     return redirect()->back()->with('status', 'Designer user created successfully!');
-    // }
+    public function createEditor(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $editorUser = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'role' => 'editor',
+        ]);
+
+        return redirect()->back()->with('status', 'Editor user created successfully!');
+    }
+
+    public function createDesigner(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
+
+        $designerUser = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+            'role' => 'designer',
+        ]);
+
+        return redirect()->back()->with('status', 'Designer user created successfully!');
+    }
 
 
 

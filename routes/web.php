@@ -40,16 +40,16 @@ Route::post('/admin/admin-login', [AuthenticatedSessionController::class, '__inv
 
 
 Route::middleware(['admin'])->group(function () {
-    Route::post('/admin/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/dashboard/admin', [AdminController::class, 'dashboard']);
     Route::get('/admin/change-password', [AdminController::class, 'changePassword'])->name('admin.admin-change-password');
     Route::post('/admin/change-password', [AdminController::class, 'updatePassword'])->name('admin.admin-update-password');
-    // Route::post('/admin/create-editor', 'AdminController@createEditor')->name('admin.create-editor');
-    // Route::post('/admin/create-designer', 'AdminController@createDesigner')->name('admin.create-designer');
+    Route::post('/admin/create-editor', 'AdminController@createEditor')->name('admin.create-editor');
+    Route::post('/admin/create-designer', 'AdminController@createDesigner')->name('admin.create-designer');
 
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::view('/editor/dashboard', 'dashboard.editor')->name('editor.dashboard');
-    Route::view('/designer/dashboard', 'dashboard.designer')->name('designer.dashboard');
-    Route::view('/normal/dashboard', 'dashboard.normal')->name('normal.dashboard');
+    Route::view('/dashboard/editor', 'dashboard.editor')->name('dashboard.editor');
+    Route::view('/dashboard/designer', 'dashboard.designer')->name('dashboard.designer');
+    Route::view('/dashboard/normal', 'dashboard.normal')->name('dashboard.normal');
 });

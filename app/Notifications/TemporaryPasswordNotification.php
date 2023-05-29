@@ -45,7 +45,7 @@ class TemporaryPasswordNotification extends Notification
             ->line('You are receiving this email because you have been assigned as the admin user.')
             ->line('Your temporary password is: ' . $temporaryPassword)
             ->line('Please log in using this password and change it immediately.')
-            ->action('Log In', route('admin.admin-login'))
+            ->action('Log In', route('http://127.0.0.1:8000/admin/admin-login'))
             ->line('If you did not request this password, please contact the site administrator.');
 }
 

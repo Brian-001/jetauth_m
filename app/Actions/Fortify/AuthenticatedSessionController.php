@@ -26,19 +26,19 @@ class AuthenticatedSessionController
             // Authenticate Users
             if ($user->role === 'admin') {
 
-                //Check if the admin user needs to change the password
-                if(Hash::check($credentials['password'], $user->password)){
+                // Check if the admin user needs to change the password
+                if (Hash::check($credentials['password'], $user->password)) {
                     return redirect()->route('admin.admin-change-password');
-                }else{
-                    return redirect('/admin/dashboard');
+                } else {
+                    return redirect('/dashboard/admin');
                 }
-                
-            }elseif($user->role === 'editor'){
-                return redirect()->route('editor.dashboard');
-            }elseif($user->role === 'designer'){
-                return redirect()->route('designer.dashboard');
-            }else{
-                return redirect()->route('normal.dashboard');
+            
+            } elseif ($user->role === 'editor') {
+                return redirect('/dashboard/editor');
+            } elseif ($user->role === 'designer') {
+                return redirect('/dashboard/designer');
+            } else {
+                return redirect('/dashboard/normal');
             }
 
         }
